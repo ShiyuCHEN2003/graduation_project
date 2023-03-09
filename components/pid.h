@@ -8,7 +8,7 @@
 typedef struct
 {
     float Kp;   
-	float Ki;
+	  float Ki;
     float Kd;
 
     float max_out;  //×î´óÊä³ö

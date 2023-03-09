@@ -2,6 +2,8 @@
     "files.associations": {
         "aht10.h": "c",
         "main.h": "c",
-        "i2c.h": "c"
+        "i2c.h": "c",
+        "waterpump.h": "c",
+        "tim.h": "c"
     }
 }

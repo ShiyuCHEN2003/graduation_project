@@ -52,7 +52,6 @@ uint16_t  duty = 0;
 float humidity = 0;
 float AHT10_humidity,AHT10_temperature;
 Pid_T pid;
-float Kp, Ki, Kd = 0;
 float pid_humiditySet = 80;
 /* USER CODE END PV */
 
@@ -100,7 +99,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   DewSensor_Init();
 	AHT10_Init();
-  PidInit(&pid,Kp,Ki,Kd,100,100);
+  PidInit(&pid,0,0,0,100,100);
   WaterPump_Init();
   /* USER CODE END 2 */
 
@@ -117,6 +116,8 @@ int main(void)
     duty = (uint16_t)PidCalculate(&pid, pid_humiditySet, humidity);
     WaterPump_Speed(&duty);
     HAL_Delay(1);
+
+
   }
   /* USER CODE END 3 */
 }

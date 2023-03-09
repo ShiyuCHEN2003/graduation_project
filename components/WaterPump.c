@@ -1,3 +1,14 @@
+/**
+ * @file WaterPump.c
+ * @author ChenShiyu (you@domain.com)
+ * @brief
+ * @version 0.1
+ * @date 2022-11-14
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "WaterPump.h"
 // TMI2_CH3   PA2   pwm_front
 // TIM2_CH4   PA3   pwm_back
@@ -23,11 +34,9 @@ void WaterPump_Init(void)
  */
 void WaterPump_Speed(uint16_t *duty)
 {
-    uint16_t pwm_front = 0;
+    static uint16_t pwm_front;
     uint16_t pwm_back = 0;
-    pwm_front = (*duty) * 5;
+    pwm_front = (*duty) * 3 + 200; // duty 0-100 映射到 200-300（水泵最小电压及最大电压）
     htim2.Instance->CCR3 = pwm_front;
     htim2.Instance->CCR4 = pwm_back;
 }
-
-

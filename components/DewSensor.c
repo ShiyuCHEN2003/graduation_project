@@ -21,16 +21,18 @@ void DewSensor_Init(void)
  */
 void DewSensor_GetData(float *humidity)
 {
-    uint16_t ADC_Value;
-    float voltage;
+    static uint16_t ADC_Value;
+    static float ADC1_voltage,voltage;
 
     HAL_ADC_PollForConversion(&hadc1, 50);
    
     
     ADC_Value = HAL_ADC_GetValue(&hadc1);
     
-    voltage = (float)ADC_Value / 4096 * 3.3;
-    *humidity = voltage;
+    ADC1_voltage = (float)ADC_Value / 4096 * 3.3;
+    voltage = ADC1_voltage / (30.7 / 49.9 + 1);
+	  *humidity = 300 * voltage / (5 - voltage);
+	  *humidity = *humidity / 207.19 *100;
 }
 
 
