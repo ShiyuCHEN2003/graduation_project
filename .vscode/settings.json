@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "aht10.h": "c",
+        "main.h": "c",
+        "i2c.h": "c"
+    }
+}
