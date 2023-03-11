@@ -4,6 +4,8 @@
         "main.h": "c",
         "i2c.h": "c",
         "waterpump.h": "c",
-        "tim.h": "c"
+        "tim.h": "c",
+        "pid.h": "c",
+        "dewsensor.h": "c"
     }
 }

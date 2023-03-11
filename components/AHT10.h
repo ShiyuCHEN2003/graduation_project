@@ -10,9 +10,9 @@
 #define AHT10_Read_ADDRESS 0x71
 
 //∂®“ÂAHT10√¸¡Ó
-#define AHT10_Init_com 0xE1
-#define AHT10_SoftReset_com 0xBA
-#define AHT10_TrigeMea_com 0xAC
+#define AHT10_Init_com 0xE1       //1110 0001
+#define AHT10_SoftReset_com 0xBA  //1011 1010
+#define AHT10_TrigeMea_com 0xAC   //1010 1100
 
 
 

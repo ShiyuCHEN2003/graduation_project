@@ -1,26 +1,27 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
 #include "i2c.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -48,9 +49,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t  duty = 0;
+uint16_t duty = 0;
 float humidity = 0;
-float AHT10_humidity,AHT10_temperature;
+float AHT10_humidity, AHT10_temperature;
 Pid_T pid;
 float pid_humiditySet = 80;
 /* USER CODE END PV */
@@ -96,10 +97,11 @@ int main(void)
   MX_TIM2_Init();
   MX_I2C1_Init();
   MX_ADC1_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   DewSensor_Init();
-	AHT10_Init();
-  PidInit(&pid,0,0,0,100,100);
+  AHT10_Init();
+  PidInit(&pid, 0, 0, 0, 100, 100);
   WaterPump_Init();
   /* USER CODE END 2 */
 
@@ -110,14 +112,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		DewSensor_GetData(&humidity);                            
-		AHT10_TrigeMea();
-		AHT10_Read_predata(&AHT10_humidity,&AHT10_temperature);
+    DewSensor_GetData(&humidity);
+    AHT10_TrigeMea();
+    AHT10_Read_predata(&AHT10_humidity, &AHT10_temperature);
     duty = (uint16_t)PidCalculate(&pid, pid_humiditySet, humidity);
     WaterPump_Speed(&duty);
-    HAL_Delay(1);
-
-
+    HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }

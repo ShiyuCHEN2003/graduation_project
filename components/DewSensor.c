@@ -11,7 +11,7 @@
 void DewSensor_Init(void)
 {
     HAL_ADCEx_Calibration_Start(&hadc1); // ADC校准
-	  HAL_ADC_Start(&hadc1);
+    HAL_ADC_Start(&hadc1);
 }
 
 /**
@@ -22,21 +22,13 @@ void DewSensor_Init(void)
 void DewSensor_GetData(float *humidity)
 {
     static uint16_t ADC_Value;
-    static float ADC1_voltage,voltage;
+    static float ADC1_voltage, DewSensor_resister;
 
     HAL_ADC_PollForConversion(&hadc1, 50);
-   
-    
+
     ADC_Value = HAL_ADC_GetValue(&hadc1);
-    
-    ADC1_voltage = (float)ADC_Value / 4096 * 3.3;
-    voltage = ADC1_voltage / (30.7 / 49.9 + 1);
-	  *humidity = 300 * voltage / (5 - voltage);
-	  *humidity = *humidity / 207.19 *100;
+
+    ADC1_voltage = (float)ADC_Value / 4096 * 3.3; // 转化为0~3.3电压
+    DewSensor_resister = 300 * ADC1_voltage / (8 - ADC1_voltage);
+    *humidity = DewSensor_resister;
 }
-
-
-
-
-
-
