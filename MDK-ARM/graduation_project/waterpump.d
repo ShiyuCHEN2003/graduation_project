@@ -32,3 +32,4 @@ graduation_project\waterpump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ha
 graduation_project\waterpump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 graduation_project\waterpump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 graduation_project\waterpump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
+graduation_project\waterpump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h

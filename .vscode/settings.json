@@ -6,6 +6,7 @@
         "waterpump.h": "c",
         "tim.h": "c",
         "pid.h": "c",
-        "dewsensor.h": "c"
+        "dewsensor.h": "c",
+        "typeconversion.h": "c"
     }
 }

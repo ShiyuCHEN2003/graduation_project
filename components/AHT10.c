@@ -48,12 +48,14 @@ void AHT10_TrigeMea(void)
  */
 uint8_t AHT10_Read_predata(float *humidity, float *temperature)
 {
+    AHT10_TrigeMea();
+    HAL_Delay(75);
     static uint32_t humi, temp;
     uint8_t readdata[6];
     uint8_t BusyIndication, CalEnable;
     HAL_I2C_Master_Receive(&hi2c1, AHT10_Read_ADDRESS, readdata, 6, 0xFFFF);
-    BusyIndication = (readdata[0] >> 7) & 0x01; //状态标志位
-    CalEnable = (readdata[0] >> 3) & 0x01;              //校准标志位
+    BusyIndication = (readdata[0] >> 7) & 0x01; // 状态标志位
+    CalEnable = (readdata[0] >> 3) & 0x01;      // 校准标志位
     if (CalEnable == 0)
     {
         AHT10_SoftReset();

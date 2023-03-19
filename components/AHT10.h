@@ -17,7 +17,6 @@
 
 
 void AHT10_Init(void);
-void AHT10_TrigeMea(void);
 uint8_t AHT10_Read_predata(float *humidity, float *temperature);
 
 #endif

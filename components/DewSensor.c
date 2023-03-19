@@ -1,5 +1,4 @@
 #include "DewSensor.h"
-#include "adc.h"
 
 // ADC1-IN4  PA4
 
@@ -16,19 +15,24 @@ void DewSensor_Init(void)
 
 /**
  * @brief  结露传感器读取湿度信息
- * @param  float *humidity  相对湿度RH 0-100
+ * @param  float *humidity  相对湿度RH 93-100
+ *         float *DewSensor_resister  结露传感器阻值 KΩ
  * @retval void
  */
-void DewSensor_GetData(float *humidity)
+void DewSensor_GetData(float *humidity, float *DewSensor_resister)
 {
     static uint16_t ADC_Value;
-    static float ADC1_voltage, DewSensor_resister;
+    static float ADC1_voltage, Parallel_resister;
 
     HAL_ADC_PollForConversion(&hadc1, 50);
 
     ADC_Value = HAL_ADC_GetValue(&hadc1);
 
     ADC1_voltage = (float)ADC_Value / 4096 * 3.3; // 转化为0~3.3电压
-    DewSensor_resister = 300 * ADC1_voltage / (8 - ADC1_voltage);
-    *humidity = DewSensor_resister;
+    Parallel_resister = 300 * ADC1_voltage / (23 - ADC1_voltage);
+    if (Parallel_resister == 50)
+        *DewSensor_resister = 50;
+    else
+        *DewSensor_resister = 50 * Parallel_resister / (50 - Parallel_resister);
+    *humidity = log(*DewSensor_resister / (2.133e-23)) / 0.5987;
 }
