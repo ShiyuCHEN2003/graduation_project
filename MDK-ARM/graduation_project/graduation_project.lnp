@@ -33,6 +33,7 @@
 "graduation_project\waterpump.o"
 "graduation_project\typeconversion.o"
 "graduation_project\serialdebug.o"
+"graduation_project\filter.o"
 --strict --scatter "graduation_project\graduation_project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

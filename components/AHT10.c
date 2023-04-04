@@ -68,5 +68,7 @@ uint8_t AHT10_Read_predata(float *humidity, float *temperature)
         *temperature = ((float)temp / 1048576) * 200 - 50;
         return 0;
     }
+		if(temp >=90)
+			AHT10_Init();
     return 1;
 }

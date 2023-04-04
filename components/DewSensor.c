@@ -30,9 +30,15 @@ void DewSensor_GetData(float *humidity, float *DewSensor_resister)
 
     ADC1_voltage = (float)ADC_Value / 4096 * 3.3; // 转化为0~3.3电压
     Parallel_resister = 300 * ADC1_voltage / (23 - ADC1_voltage);
-    if (Parallel_resister == 50)
-        *DewSensor_resister = 50;
+    if (Parallel_resister >= 50)
+        *DewSensor_resister = 40000;
     else
+    {
         *DewSensor_resister = 50 * Parallel_resister / (50 - Parallel_resister);
+        if (*DewSensor_resister >= 40000)
+            *DewSensor_resister = 40000;
+    }
     *humidity = log(*DewSensor_resister / (2.133e-23)) / 0.5987;
+    if (*humidity > 100)
+        *humidity = 100;
 }
