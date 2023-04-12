@@ -47,3 +47,4 @@ graduation_project\main.o: D:\Software\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 graduation_project\main.o: ..\components\SerialDebug.h
 graduation_project\main.o: D:\Software\Keil\ARM\ARMCC\Bin\..\include\stdarg.h
 graduation_project\main.o: ..\components\Filter.h
+graduation_project\main.o: ..\components\FlowSensor.h

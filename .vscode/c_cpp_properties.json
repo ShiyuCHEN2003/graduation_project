@@ -11,7 +11,8 @@
                 "d:\\SoftwareData\\CubeMXData\\graduation_project\\components",
                 "d:\\SoftwareData\\CubeMXData\\graduation_project\\MDK-ARM",
                 "d:\\SoftwareData\\CubeMXData\\graduation_project\\Core\\Src",
-                "d:\\SoftwareData\\CubeMXData\\graduation_project\\Drivers\\STM32F1xx_HAL_Driver\\Src"
+                "d:\\SoftwareData\\CubeMXData\\graduation_project\\Drivers\\STM32F1xx_HAL_Driver\\Src",
+                "D:\\SoftwareData\\CubeMXData\\graduation_project\\components"
             ],
             "defines": [
                 "USE_HAL_DRIVER",

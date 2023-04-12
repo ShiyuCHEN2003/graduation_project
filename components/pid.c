@@ -1,5 +1,4 @@
 #include "pid.h"
-#include "stddef.h"
 
 // Pid_T Pid;
 #define LimitMax(input, max)   \
@@ -41,6 +40,27 @@ float PidCalculate(Pid_T *pid, float set, float feedback)
     pid->error[0] = pid->Set - pid->feedback;
     pid->pout = pid->Kp * pid->error[0];
     pid->iout += pid->Ki * pid->error[0];
+    pid->dout = pid->Kd * (pid->error[0] - pid->error[1]);
+    LimitMax(pid->dout, pid->max_dout);
+    pid->out = pid->pout + pid->iout + pid->dout;
+    LimitMax(pid->out, pid->max_out);
+    return pid->out;
+}
+
+float IntergralSeparationPTD(Pid_T *pid, float set, float feedback, float region)
+{
+    if (pid == NULL)
+    {
+        return 0.0f;
+    }
+    pid->error[2] = pid->error[1];
+    pid->error[1] = pid->error[0];
+    pid->Set = set;
+    pid->feedback = feedback;
+    pid->error[0] = pid->Set - pid->feedback;
+    pid->pout = pid->Kp * pid->error[0];
+    if (fabs(pid->error[0]) <= region)
+        pid->iout += pid->Ki * pid->error[0];
     pid->dout = pid->Kd * (pid->error[0] - pid->error[1]);
     LimitMax(pid->dout, pid->max_dout);
     pid->out = pid->pout + pid->iout + pid->dout;

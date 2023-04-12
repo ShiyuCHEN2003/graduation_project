@@ -1,8 +1,9 @@
 
-#ifndef _PID_H
-#define _PID_H
+#ifndef _PID_H_
+#define _PID_H_
 #include "math.h"
 #include "stdint.h"
+#include "stddef.h"
 
 typedef struct
 {
@@ -28,5 +29,7 @@ typedef struct
 
 void PidInit(Pid_T *pid, float Kp, float Ki, float Kd, float max_out, float max_iout); // 设定PID控制器初始值
 
-float PidCalculate(Pid_T *pid, float set, float feedback); // PID计算输出值
+float PidCalculate(Pid_T *pid, float set, float feedback); // 经典PID计算输出值
+
+float IntergralSeparationPTD(Pid_T *pid, float set, float feedback, float region); // 积分分离PID计算输出值
 #endif

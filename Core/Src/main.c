@@ -35,6 +35,7 @@
 #include "stdio.h"
 #include "SerialDebug.h"
 #include "Filter.h"
+#include "FlowSensor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,13 +56,15 @@
 
 /* USER CODE BEGIN PV */
 uint16_t duty = 0;
-uint16_t duty1 = 10;
+uint16_t duty1 = 0;
 float DewSensor_humidity, DewSensor_resister, humidity;
 uint8_t humidity_int = 0;
 float AHT10_humidity, AHT10_temperature;
 Pid_T pid;
-float pid_Set = 0;
+float pid_Set = 55;
+float region = 2;
 AveFilter Filter;
+float flowrate;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -75,9 +78,9 @@ void SystemClock_Config(void);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -108,12 +111,15 @@ int main(void)
   MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_I2C2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+
   DewSensor_Init();
   AHT10_Init();
-  PidInit(&pid, 0, 0, 0, 100, 100);
+  PidInit(&pid, -20, -0.1, 0, 100, 100);
   WaterPump_Init();
   AverageFilterInit(&Filter);
+  Flowsensor_Init();
   //	Serial_Debug_Init(&huart1);
   /* USER CODE END 2 */
 
@@ -126,7 +132,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
     DewSensor_GetData(&DewSensor_humidity, &DewSensor_resister);
     AHT10_Read_predata(&AHT10_humidity, &AHT10_temperature);
-
+    flowrate = Flowsensor_PS2216(&capturecal);
     //    if (DewSensor_humidity >= 94)
     //      humidity = DewSensor_humidity;
     //    else if (DewSensor_humidity >= 92 && DewSensor_humidity < 94)
@@ -134,10 +140,9 @@ int main(void)
     //    else
     //      humidity = AHT10_humidity;
 
-    
-    duty = (uint16_t)PidCalculate(&pid, pid_Set, AHT10_temperature);
-  
-    WaterPump_Speed(&duty);
+    // duty = (uint16_t)PidCalculate(&pid, pid_Set, AHT10_temperature);
+    duty = (uint16_t)IntergralSeparationPTD(&pid, pid_Set, AHT10_temperature, region);
+    WaterPump_Speed(&duty1);
 
     //  FloatToUint8(&humidity_int, &humidity, 1);
 
@@ -153,9 +158,9 @@ int main(void)
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -163,8 +168,8 @@ void SystemClock_Config(void)
   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+   * in the RCC_OscInitTypeDef structure.
+   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
@@ -177,9 +182,8 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -202,9 +206,9 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -216,14 +220,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
@@ -232,4 +236,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-

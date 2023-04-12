@@ -1,5 +1,5 @@
-#ifndef Filter_h
-#define Filter_h
+#ifndef _FILTER_H_
+#define _FILTER_H_
 
 // ¾ùÖµÂË²¨
 #define AVERAGE_LENGTH 30

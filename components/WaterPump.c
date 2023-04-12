@@ -1,8 +1,8 @@
 /**
  * @file WaterPump.c
- * @author ChenShiyu (you@domain.com)
+ * @author ChenShiyu 
  * @brief
- * @version 0.1
+ * @version 1.0
  * @date 2022-11-14
  *
  * @copyright Copyright (c) 2022

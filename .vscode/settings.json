@@ -7,6 +7,8 @@
         "tim.h": "c",
         "pid.h": "c",
         "dewsensor.h": "c",
-        "typeconversion.h": "c"
+        "typeconversion.h": "c",
+        "flowsensor_ps2216.h": "c",
+        "flowsensor.h": "c"
     }
 }
