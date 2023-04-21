@@ -164,7 +164,7 @@
           <Type>0</Type>
           <LineNumber>53</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134234168</Address>
+          <Address>134234144</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -381,6 +381,16 @@
           <count>40</count>
           <WinNumber>1</WinNumber>
           <ItemText>flowrate</ItemText>
+        </Ww>
+        <Ww>
+          <count>41</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>count,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>42</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>htim3,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

@@ -10,10 +10,11 @@ typedef struct
     uint32_t buf[3];  // 计数值
     uint16_t timeout; // 溢出次数
     float f;          // 每秒频率
+    uint32_t number;
 } CAPTUREC_t;
 
 extern CAPTUREC_t capturecal;
-void Flowsensor_Init(void);
+void Flowsensor_Init(CAPTUREC_t *capturecal);
 float Flowsensor_YFs401(CAPTUREC_t *capturecal);
 float Flowsensor_PS2216(CAPTUREC_t *capturecal);
 #endif

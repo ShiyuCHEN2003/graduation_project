@@ -2,7 +2,7 @@
 #define _FILTER_H_
 
 // 均值滤波
-#define AVERAGE_LENGTH 30
+#define AVERAGE_LENGTH 100
 typedef struct _AveFilter
 {
     float buffer[AVERAGE_LENGTH]; // 缓存数组
